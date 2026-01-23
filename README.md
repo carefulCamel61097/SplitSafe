@@ -7,15 +7,16 @@
 ## ✨ Features
 * **Smart Settlement:** Minimizes the number of bank transfers needed using a greedy algorithm.
 * **Multi-Language:** Support for **English**, **Thai**, and **Chinese**.
-* **Multi-Currency:** Independent toggles for **USD**, **THB**, and **EUR**.
+* **Multi-Currency:** Independent toggles for **USD**, **THB**, and **CNY**.
 * **Offline-First:** Built as a Progressive Web App (PWA)—fully functional without an internet connection once installed.
 * **No Accounts:** All data is saved locally on your device for instant access.
 
 ## 🛠️ Tech Stack
-* **Framework:** React Native (Expo)
-* **Platform:** Web (PWA)
-* **Storage:** AsyncStorage
-* **Styling:** React Native StyleSheet
+* **Language:** Vanilla JavaScript (ES6+)
+* **Structure:** HTML5 & CSS3 (Custom Dark Theme)
+* **Platform:** Web (Cross-platform PWA)
+* **Storage:** Browser LocalStorage API
+* **Deployment:** GitHub Actions & GitHub Pages
 
 ## 🚀 How to Use
 1.  **Add Payers:** Enter the name of the person who paid and the amount.
@@ -24,10 +25,10 @@
 4.  **Share:** Use the Share button to send the settlement plan to your group via WhatsApp, Line, or Messenger.
 
 ## 💻 Developer Setup
-To run this project locally:
-1. Clone the repo: `git clone https://github.com/carefulCamel61097/splitsafe.git`
-2. Install dependencies: `npm install`
-3. Start the project: `npx expo start`
+Since this is a Vanilla PWA, there are no heavy dependencies or build steps required.
+1. Clone the repo: `git clone https://github.com/carefulCamel61097/SplitSafe.git`
+2. Open index.html in any modern web browser.
+3. To test PWA features locally, use a simple local server (e.g., Live Server extension in VS Code).
 
 ---
 *Created by carefulCamel61097*

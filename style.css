@@ -1,8 +1,10 @@
+/* --- Global & Base Styles --- */
 * {
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     overflow-x: hidden;
     width: 100%;
     background-color: #0a0f1d;
@@ -20,25 +22,47 @@ body {
 #app {
     width: 100%;
     max-width: 500px;
-    padding: 12px; /* Tightened container padding */
+    padding: 12px;
+    padding-bottom: 160px;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
+/* --- Header & Settings --- */
 header h1 {
     color: #3b82f6;
     text-align: center;
-    margin: 10px 0; /* Reduced header margin */
+    margin: 0;
+    padding-top: 0px;
+    padding-bottom: 10px;
     font-size: 1.8rem;
 }
 
+.settings-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 0px;
+}
+
+select {
+    background: #1a2236;
+    color: #e2e8f0;
+    border: 1px solid #334155;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    outline: none;
+}
+
+/* --- Components: Cards --- */
 .card {
     background: #1a2236;
-    padding: 16px; /* Tightened card padding */
+    padding: 16px;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    margin-bottom: 12px; /* Reduced space between cards */
+    margin-bottom: 12px;
 }
 
 .card-header {
@@ -56,19 +80,40 @@ h3 {
     letter-spacing: 0.05em;
 }
 
+.highlight-card {
+    text-align: center;
+    background: #1e293b;
+    border: 1px solid #4f46e5;
+    color: #818cf8;
+    padding: 10px;
+}
+
+.highlight-card p {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+/* --- Form Elements --- */
 .row {
     display: flex;
     width: 100%;
-    gap: 8px; /* Tightened input gap */
+    gap: 8px;
 }
 
-.flex-5 { flex: 5; min-width: 0; }
-.flex-2 { flex: 2; min-width: 0; }
+.flex-5 {
+    flex: 5;
+    min-width: 0;
+}
+
+.flex-2 {
+    flex: 2;
+    min-width: 0;
+}
 
 input {
     width: 100%;
-    padding: 10px; /* Slimmer inputs */
-    margin: 4px 0 6px 0; /* Reduced vertical spacing */
+    padding: 10px;
+    margin: 4px 0 6px 0;
     background: #0f172a;
     border: 1px solid #334155;
     border-radius: 6px;
@@ -76,7 +121,9 @@ input {
     font-size: 16px;
 }
 
-input::placeholder { color: #475569; }
+input::placeholder {
+    color: #475569;
+}
 
 .stats-row {
     display: flex;
@@ -87,13 +134,13 @@ input::placeholder { color: #475569; }
     color: #94a3b8;
 }
 
-/* BUTTONS */
+/* --- Buttons --- */
 button {
     cursor: pointer;
     font-weight: bold;
     border: none;
     transition: transform 0.1s, opacity 0.2s;
-    font-size: 1.1rem; /* Unified font size as requested */
+    font-size: 1.1rem;
     border-radius: 10px;
 }
 
@@ -102,40 +149,57 @@ button:active {
     opacity: 0.9;
 }
 
-/* Set A: Add Expense & Share (Slate Teal) */
-#addBtn, .secondary-btn {
+#addBtn,
+.secondary-btn {
     width: 100%;
-    background-color: #0d9488; 
+    background-color: #0d9488;
     color: white;
     padding: 14px;
 }
 
-/* Set B: Finish & Settle & Back (Indigo) */
 .primary-btn {
     width: 100%;
     background-color: #4f46e5;
     color: white;
     padding: 16px;
-    margin-top: auto;
-    margin-bottom: 10px;
 }
 
-.text-btn { background: none; font-size: 0.85rem; padding: 4px; }
-.danger { color: #f87171; }
+.text-btn {
+    background: none;
+    font-size: 0.85rem;
+    padding: 4px;
+}
 
-/* LISTS */
-#list { list-style: none; padding: 0; margin: 0; }
+.danger {
+    color: #f87171;
+}
 
-.expense-item, .settle-item {
+/* --- Lists --- */
+#list,
+#settlementList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.expense-item,
+.settle-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 0; /* Tightened list spacing */
+    padding: 8px 0;
     border-bottom: 1px solid #334155;
 }
 
-.expense-info { flex: 1; font-size: 0.95rem; }
-.expense-info small { display: block; margin-top: 2px; }
+.expense-info {
+    flex: 1;
+    font-size: 0.95rem;
+}
+
+.expense-info small {
+    display: block;
+    margin-top: 2px;
+}
 
 .delete-icon {
     color: #f87171;
@@ -143,22 +207,17 @@ button:active {
     padding-left: 12px;
 }
 
-/* SETTLE PAGE SPECIFICS */
-.highlight-card {
-    text-align: center;
-    background: #1e293b;
-    border: 1px solid #4f46e5;
-    color: #818cf8;
-    padding: 10px; /* Significantly reduced padding around Equal Split */
-    margin-bottom: 12px;
-}
-
-.highlight-card p { margin: 0; font-size: 1.1rem; }
-
-.button-group {
-    margin-top: auto;
+.footer-container {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 500px;
+    background-color: #0a0f1d;
+    padding: 15px 20px 30px 20px;
+    z-index: 100;
     display: flex;
     flex-direction: column;
-    gap: 8px; /* Tighter button grouping */
-    margin-bottom: 10px;
+    gap: 12px;
 }

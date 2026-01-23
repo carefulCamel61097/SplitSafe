@@ -12,55 +12,78 @@
 <body>
   <div id="app">
     <header>
+      <div class="settings-row">
+        <select id="currSelect" onchange="changeCurr()">
+          <option value="USD">$ USD</option>
+          <option value="THB">฿ THB</option>
+          <option value="CNY">¥ CNY</option>
+        </select>
+
+        <select id="langSelect" onchange="changeLang()">
+          <option value="en">🇬🇧 EN</option>
+          <option value="th">🇹🇭 TH</option>
+          <option value="zh">🇨🇳 ZH</option>
+        </select>
+      </div>
       <h1>SplitSafe</h1>
     </header>
 
     <div id="view-expenses">
       <main>
         <div class="card">
-          <h3>Expenses</h3>
+          <h3 data-i18n="expenses_list">Expenses</h3>
           <div class="row">
             <input type="text" id="nameInput" placeholder="Name" class="flex-5" onkeydown="handleEnter(event)">
             <input type="number" id="amountInput" placeholder="0.00" class="flex-2" onkeydown="handleEnter(event)">
           </div>
-          <input type="text" id="descInput" placeholder="Description (optional)" onkeydown="handleEnter(event)">
-          <button id="addBtn" onclick="addExpense()">Add Expense</button>
+          <input type="text" id="descInput" placeholder="Description (Optional)" onkeydown="handleEnter(event)">
+          <button id="addBtn" onclick="addExpense()" data-i18n="add_expense">Add Expense</button>
+
           <div class="stats-row">
-            <span id="participantCount">Participants: 0</span>
-            <span id="totalDisplay">Total: $0.00</span>
+            <span><span data-i18n="participants">Participants</span>: <span id="participantCount">0</span></span>
+            <span>
+              <span data-i18n="total">Total</span>:
+              <span id="currSym">$</span><span id="totalDisplay">0.00</span>
+            </span>
           </div>
         </div>
 
         <div class="card">
           <div class="card-header">
-            <h3>Recorded Expenses</h3>
-            <button class="text-btn danger" onclick="clearAll()">Clear All</button>
+            <h3 data-i18n="recorded_expenses">Recorded Expenses</h3>
+            <button class="text-btn danger" onclick="clearAll()" data-i18n="clear_all">Clear All</button>
           </div>
           <ul id="list"></ul>
         </div>
 
-        <button class="primary-btn" onclick="showSettlePage()">Finish & Settle</button>
-
+        <div class="footer-container">
+          <button class="primary-btn" onclick="showSettlePage()" data-i18n="finish">Finish & Settle</button>
+        </div>
       </main>
     </div>
 
     <div id="view-settle" style="display: none;">
       <main>
         <div class="card highlight-card">
-          <p>Equal Split: <span id="equalSplitDisplay">$0.00</span></p>
+          <p>
+            <span data-i18n="equal_split">Equal Split</span>:
+            <span id="equalSplitDisplay">0.00</span>
+          </p>
         </div>
+
         <div class="card">
-          <h3>Transactions</h3>
-          <div id="settlementList">
-          </div>
+          <h3 data-i18n="transactions">Transactions</h3>
+          <div id="settlementList"></div>
         </div>
-        <div class="button-group">
-          <button class="secondary-btn" onclick="shareResults()">Share</button>
-          <button class="primary-btn" onclick="showExpensePage()">Back to Expenses</button>
+
+        <div class="footer-container">
+          <button class="secondary-btn" onclick="shareResults()" data-i18n="share">Share</button>
+          <button class="primary-btn" onclick="showExpensePage()" data-i18n="back">Back to Expenses</button>
         </div>
       </main>
     </div>
   </div>
+
   <script src="script.js"></script>
 </body>
 

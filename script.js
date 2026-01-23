@@ -1,28 +1,145 @@
+/* --- Service Worker Registration --- */
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js')
-      .then(reg => console.log('SW Registered!', reg))
-      .catch(err => console.error('SW Registration failed!', err));
-  });
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('SW Registered!', reg))
+            .catch(err => console.error('SW Registration failed!', err));
+    });
 }
 
-// 1. New function to detect Enter key
+/* --- Data & Translations --- */
+const translations = {
+    en: {
+        label: "Eng",
+        flag: "🇬🇧",
+        expenses_list: "Expenses",
+        add_expense: "Add Expense",
+        name: "Name",
+        amount: "Amount",
+        desc: "Description (Optional)",
+        total: "Total",
+        participants: "Participants",
+        recorded_expenses: "Recorded Expenses",
+        paid: " paid ",
+        clear_all: "Clear All",
+        finish: "Finish & Settle",
+        delete: "Delete",
+        transactions: "Transactions",
+        equal_split: "Equal Split",
+        back: "Back to Expenses",
+        share: "Share",
+        noTrans: "No transactions needed!",
+        pays: " pays ",
+        settleTitle: "Settlement Plan",
+    },
+    th: {
+        label: "ไทย",
+        flag: "🇹🇭",
+        expenses_list: "ค่าใช้จ่าย",
+        add_expense: "เพิ่มรายการ",
+        name: "ชื่อ",
+        amount: "จำนวนเงิน",
+        desc: "คำอธิบาย (ไม่บังคับ)",
+        total: "ยอดรวม",
+        participants: "ผู้ร่วมจ่าย",
+        recorded_expenses: "ค่าใช้จ่ายที่บันทึกไว้",
+        paid: " จ่ายแล้ว ",
+        clear_all: "ลบทั้งหมด",
+        finish: "คำนวณการจ่ายเงิน",
+        delete: "ลบ",
+        transactions: "ธุรกรรม",
+        equal_split: "จ่ายคนละ",
+        back: "ย้อนกลับ",
+        share: "แชร์ให้เพื่อน",
+        noTrans: "ไม่มีหนี้ค้างชำระ!",
+        pays: " จ่ายให้ ",
+        settleTitle: "แผนการชำระหนี้",
+    },
+    zh: {
+        label: "中文",
+        flag: "🇨🇳",
+        expenses_list: "费用",
+        add_expense: "添加费用",
+        name: "名称",
+        amount: "金额",
+        desc: "描述（可选）",
+        total: "总计",
+        participants: "参与者",
+        recorded_expenses: "已记录的费用",
+        paid: " 已支付 ",
+        clear_all: "全部清除",
+        finish: "完成并结算",
+        delete: "删除",
+        transactions: "交易",
+        equal_split: "均摊",
+        back: "返回费用",
+        share: "共享",
+        noTrans: "无需交易！",
+        pays: " 支付 ",
+        settleTitle: "结算方案",
+    }
+};
+
+const currencies = {
+    USD: { symbol: "$", label: "USD" },
+    THB: { symbol: "฿", label: "THB" },
+    CNY: { symbol: "¥", label: "CNY" },
+};
+
+/* --- State Management --- */
+let currentLang = localStorage.getItem('ss_lang') || 'en';
+let currentCurr = localStorage.getItem('ss_curr') || 'USD';
+let expenses = JSON.parse(localStorage.getItem('splitSafeExpenses')) || [];
+
+/* --- Storage & Initialization Helpers --- */
+function saveData() {
+    localStorage.setItem('splitSafeExpenses', JSON.stringify(expenses));
+}
+
+function syncDropdowns() {
+    document.getElementById('langSelect').value = currentLang;
+    document.getElementById('currSelect').value = currentCurr;
+}
+
 function handleEnter(event) {
     if (event.key === 'Enter') {
         addExpense();
     }
 }
 
-// 1. Initial Load from Memory
-// This runs as soon as the script loads
-let expenses = JSON.parse(localStorage.getItem('splitSafeExpenses')) || [];
-
-// 2. The Trigger
-// We must wait for the page to be ready before we try to draw the list
-window.addEventListener('load', () => {
+/* --- Settings & Localization --- */
+function changeLang() {
+    currentLang = document.getElementById('langSelect').value;
+    localStorage.setItem('ss_lang', currentLang);
+    applyTranslations();
     updateUI();
-});
+    if (document.getElementById('view-settle').style.display === 'block') {
+        calculateSettlement();
+    }
+}
 
+function changeCurr() {
+    currentCurr = document.getElementById('currSelect').value;
+    localStorage.setItem('ss_curr', currentCurr);
+    updateUI();
+    if (document.getElementById('view-settle').style.display === 'block') {
+        calculateSettlement();
+    }
+}
+
+function applyTranslations() {
+    const t = translations[currentLang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) el.innerText = t[key];
+    });
+
+    document.getElementById('nameInput').placeholder = t.name;
+    document.getElementById('amountInput').placeholder = "0.00";
+    document.getElementById('descInput').placeholder = t.desc;
+}
+
+/* --- Core App Functions --- */
 function addExpense() {
     const nameInput = document.getElementById('nameInput');
     const amountInput = document.getElementById('amountInput');
@@ -35,47 +152,36 @@ function addExpense() {
     if (!name || isNaN(amount)) return;
 
     expenses.push({ name, amount, desc });
-
-    // SAVE POINT 1: Save after adding
     saveData();
 
-    // 2. THIS CLOSES THE KEYBOARD
-    // It tells the phone: "Stop focusing on whatever box is active right now"
     if (document.activeElement) {
         document.activeElement.blur();
     }
 
     updateUI();
 
-    // Reset inputs
     nameInput.value = '';
     amountInput.value = '';
     descInput.value = '';
 }
 
-// ... (keep previous variables and addExpense)
-
 function deleteExpense(index) {
     expenses.splice(index, 1);
-    // SAVE POINT 2: Save after deleting
     saveData();
     updateUI();
 }
 
 function clearAll() {
     expenses = [];
-    // SAVE POINT 3: Save after clearing
     saveData();
     updateUI();
 }
 
-// THE STORAGE ENGINE
-function saveData() {
-    localStorage.setItem('splitSafeExpenses', JSON.stringify(expenses));
-}
-
 function updateUI() {
     const list = document.getElementById('list');
+    const t = translations[currentLang];
+    const c = currencies[currentCurr];
+
     list.innerHTML = '';
     let total = 0;
     let participants = new Set();
@@ -88,21 +194,26 @@ function updateUI() {
         li.className = "expense-item";
         li.innerHTML = `
             <div class="expense-info">
-                <strong>${exp.name}</strong> paid $${exp.amount.toFixed(2)}
-                <br><small style="color:gray">${exp.desc || 'No description'}</small>
+                <strong>${exp.name}</strong> ${t.paid} ${c.symbol}${exp.amount.toFixed(2)}
+                <br><small style="color:gray">${exp.desc || ''}</small>
             </div>
             <div class="delete-icon" onclick="deleteExpense(${index})">×</div>
         `;
         list.appendChild(li);
     });
 
-    document.getElementById('participantCount').innerText = `Participants: ${participants.size}`;
-    document.getElementById('totalDisplay').innerText = `Total: $${total.toFixed(2)}`;
+    const currSymElements = document.querySelectorAll('#currSym');
+    currSymElements.forEach(el => el.innerText = c.symbol);
+
+    document.getElementById('totalDisplay').innerText = total.toFixed(2);
+    document.getElementById('participantCount').innerText = participants.size;
+
+    document.getElementById('langSelect').value = currentLang;
+    document.getElementById('currSelect').value = currentCurr;
 }
 
-// NAVIGATION Logic
+/* --- Navigation & Settlement Logic --- */
 function showSettlePage() {
-    // Removed the alert check so it always transitions
     document.getElementById('view-expenses').style.display = 'none';
     document.getElementById('view-settle').style.display = 'block';
     calculateSettlement();
@@ -115,12 +226,13 @@ function showExpensePage() {
 
 function calculateSettlement() {
     const settleList = document.getElementById('settlementList');
+    const t = translations[currentLang];
+    const c = currencies[currentCurr];
     settleList.innerHTML = '';
 
-    // Handle the empty state first
     if (expenses.length === 0) {
-        document.getElementById('equalSplitDisplay').innerText = `$0.00`;
-        settleList.innerHTML = '<p style="text-align:center; color:gray; padding:20px;">No transactions needed.</p>';
+        document.getElementById('equalSplitDisplay').innerText = `${c.symbol}0.00`;
+        settleList.innerHTML = `<p style="text-align:center; color:gray; padding:20px;">${t.noTrans}</p>`;
         return;
     }
 
@@ -135,7 +247,7 @@ function calculateSettlement() {
 
     const participantNames = Object.keys(balances);
     const share = total / participantNames.length;
-    document.getElementById('equalSplitDisplay').innerText = `$${share.toFixed(2)}`;
+    document.getElementById('equalSplitDisplay').innerText = ` ${c.symbol}${share.toFixed(2)}`;
 
     let debtors = [];
     let creditors = [];
@@ -145,13 +257,11 @@ function calculateSettlement() {
         else if (net > 0.01) creditors.push({ name, net });
     });
 
-    // If everyone is equal or only one person paid everything for themselves
     if (debtors.length === 0) {
-        settleList.innerHTML = '<p style="text-align:center; color:gray; padding:20px;">No transactions needed.</p>';
+        settleList.innerHTML = `<p style="text-align:center; color:gray; padding:20px;">${t.noTrans}</p>`;
         return;
     }
 
-    // Matching Logic (stays the same)
     while (debtors.length > 0 && creditors.length > 0) {
         let debtor = debtors[0];
         let creditor = creditors[0];
@@ -159,7 +269,7 @@ function calculateSettlement() {
 
         const p = document.createElement('div');
         p.className = "expense-item";
-        p.innerHTML = `<span><strong>${debtor.name}</strong> pays <strong>${creditor.name}</strong></span> <strong>$${amount.toFixed(2)}</strong>`;
+        p.innerHTML = `<span><strong>${debtor.name}</strong> ${t.pays} <strong>${creditor.name}</strong></span> <strong>${c.symbol}${amount.toFixed(2)}</strong>`;
         settleList.appendChild(p);
 
         debtor.net -= amount;
@@ -178,3 +288,10 @@ function shareResults() {
         navigator.clipboard.writeText(text);
     }
 }
+
+/* --- Application Boot --- */
+window.addEventListener('load', () => {
+    syncDropdowns();
+    applyTranslations();
+    updateUI();
+});
