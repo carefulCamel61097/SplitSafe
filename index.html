@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SplitSafe</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+  <div id="app">
+    <header>
+      <h1>SplitSafe</h1>
+    </header>
+
+    <div id="view-expenses">
+      <main>
+        <div class="card">
+          <h3>Expenses</h3>
+          <div class="row">
+            <input type="text" id="nameInput" placeholder="Name" class="flex-5" onkeydown="handleEnter(event)">
+            <input type="number" id="amountInput" placeholder="0.00" class="flex-2" onkeydown="handleEnter(event)">
+          </div>
+          <input type="text" id="descInput" placeholder="Description (optional)" onkeydown="handleEnter(event)">
+          <button id="addBtn" onclick="addExpense()">Add Expense</button>
+          <div class="stats-row">
+            <span id="participantCount">Participants: 0</span>
+            <span id="totalDisplay">Total: $0.00</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Recorded Expenses</h3>
+            <button class="text-btn danger" onclick="clearAll()">Clear All</button>
+          </div>
+          <ul id="list"></ul>
+        </div>
+
+        <button class="primary-btn" onclick="showSettlePage()">Finish & Settle</button>
+
+      </main>
+    </div>
+
+    <div id="view-settle" style="display: none;">
+      <main>
+        <div class="card highlight-card">
+          <p>Equal Split: <span id="equalSplitDisplay">$0.00</span></p>
+        </div>
+        <div class="card">
+          <h3>Transactions</h3>
+          <div id="settlementList">
+          </div>
+        </div>
+        <div class="button-group">
+          <button class="secondary-btn" onclick="shareResults()">Share</button>
+          <button class="primary-btn" onclick="showExpensePage()">Back to Expenses</button>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>
