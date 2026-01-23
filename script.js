@@ -10,8 +10,6 @@ if ('serviceWorker' in navigator) {
 /* --- Data & Translations --- */
 const translations = {
     en: {
-        label: "Eng",
-        flag: "🇬🇧",
         expenses_list: "Expenses",
         add_expense: "Add Expense",
         name: "Name",
@@ -23,18 +21,14 @@ const translations = {
         paid: " paid ",
         clear_all: "Clear All",
         finish: "Finish & Settle",
-        delete: "Delete",
         transactions: "Transactions",
         equal_split: "Equal Split",
         back: "Back to Expenses",
         share: "Share",
         noTrans: "No transactions needed!",
         pays: " pays ",
-        settleTitle: "Settlement Plan",
     },
     th: {
-        label: "ไทย",
-        flag: "🇹🇭",
         expenses_list: "ค่าใช้จ่าย",
         add_expense: "เพิ่มรายการ",
         name: "ชื่อ",
@@ -46,18 +40,14 @@ const translations = {
         paid: " จ่ายแล้ว ",
         clear_all: "ลบทั้งหมด",
         finish: "คำนวณการจ่ายเงิน",
-        delete: "ลบ",
         transactions: "ธุรกรรม",
         equal_split: "จ่ายคนละ",
         back: "ย้อนกลับ",
         share: "แชร์ให้เพื่อน",
         noTrans: "ไม่มีหนี้ค้างชำระ!",
         pays: " จ่ายให้ ",
-        settleTitle: "แผนการชำระหนี้",
     },
     zh: {
-        label: "中文",
-        flag: "🇨🇳",
         expenses_list: "费用",
         add_expense: "添加费用",
         name: "名称",
@@ -69,14 +59,12 @@ const translations = {
         paid: " 已支付 ",
         clear_all: "全部清除",
         finish: "完成并结算",
-        delete: "删除",
         transactions: "交易",
         equal_split: "均摊",
         back: "返回费用",
         share: "共享",
         noTrans: "无需交易！",
         pays: " 支付 ",
-        settleTitle: "结算方案",
     }
 };
 

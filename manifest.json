@@ -4,8 +4,8 @@
   "description": "Simple and safe debt settlement calculator.",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#f0f2f5",
-  "theme_color": "#007AFF",
+  "background_color": "#0a0f1d",
+  "theme_color": "#0a0f1d",
   "icons": [
     {
       "src": "icon-192-dm-square.png",
