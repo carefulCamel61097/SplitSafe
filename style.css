@@ -16,7 +16,7 @@ body {
     display: flex;
     justify-content: center;
     overscroll-behavior-y: contain;
-    color: #e2e8f0;
+    color: #ffffff;
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
@@ -32,7 +32,7 @@ body {
 
 /* --- Header & Settings --- */
 header h1 {
-    color: #3b82f6;
+    color: #60a5fa;
     text-align: center;
     margin: 0;
     padding-top: 0px;
@@ -75,7 +75,7 @@ select {
 
 h3 {
     margin: 0;
-    color: #94a3b8;
+    color: #cbd5e1;
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -84,7 +84,7 @@ h3 {
 .highlight-card {
     text-align: center;
     background: #1e293b;
-    border: 1px solid #4f46e5;
+    border: 1px solid #6366f1;
     color: #818cf8;
     padding: 10px;
 }
@@ -116,14 +116,14 @@ input {
     padding: 10px;
     margin: 4px 0 6px 0;
     background: #0f172a;
-    border: 1px solid #334155;
+    border: 1px solid #475569;
     border-radius: 6px;
-    color: white;
+    color: #ffffff;
     font-size: 16px;
 }
 
 input::placeholder {
-    color: #475569;
+    color: #94a3b8;
 }
 
 .stats-row {
@@ -132,7 +132,7 @@ input::placeholder {
     margin-top: 10px;
     font-weight: 600;
     font-size: 0.9rem;
-    color: #94a3b8;
+    color: #cbd5e1;
 }
 
 /* --- Buttons --- */
@@ -195,15 +195,17 @@ button:active {
 .expense-info {
     flex: 1;
     font-size: 0.95rem;
+    color: #f8fafc;
 }
 
 .expense-info small {
     display: block;
     margin-top: 2px;
+    color: #94a3b8;
 }
 
 .delete-icon {
-    color: #f87171;
+    color: #fca5a5;
     font-size: 1.4rem;
     padding-left: 12px;
 }
